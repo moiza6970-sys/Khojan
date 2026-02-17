@@ -7,35 +7,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb);
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #a1c4fd, #c2e9fb, #fbc2eb);
             background-size: 400% 400%;
-            animation: gradient 10s ease infinite;
+            animation: gradient 8s ease infinite; /* Faster gradient for more energy */
             display: flex; justify-content: center; align-items: center;
             min-height: 100vh; font-family: 'Poppins', sans-serif; margin: 0; overflow: hidden;
         }
         @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         
-        /* Floating Bubbles & Hearts */
-        .floating {
-            position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%; animation: rise 10s infinite ease-in; z-index: 1;
-        }
-        .heart-float {
-            position: absolute; bottom: -50px; font-size: 20px;
-            animation: rise 8s infinite linear; opacity: 0.6; z-index: 1;
-        }
-        @keyframes rise { 
-            from { transform: translateY(0) rotate(0deg); opacity: 0.7; } 
-            to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } 
-        }
+        /* Floating Elements */
+        .floating { position: absolute; bottom: -100px; background: rgba(255, 255, 255, 0.4); border-radius: 50%; animation: rise 10s infinite ease-in; z-index: 1; }
+        .heart-float { position: absolute; bottom: -50px; animation: rise 8s infinite linear; opacity: 0.7; z-index: 1; }
+        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle 2s infinite; z-index: 0; }
+        
+        @keyframes rise { from { transform: translateY(0) rotate(0deg); opacity: 0.8; } to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+        @keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.5); } }
 
         .card {
             background: rgba(255, 255, 255, 0.95); padding: 40px 30px; border-radius: 30px;
-            box-shadow: 0 0 40px rgba(255, 64, 129, 0.3); text-align: center;
+            box-shadow: 0 0 50px rgba(255, 64, 129, 0.4); text-align: center;
             width: 340px; z-index: 10; border: 4px solid #fff; backdrop-filter: blur(10px);
-            position: relative; animation: floatCard 3s ease-in-out infinite;
+            animation: floatCard 3s ease-in-out infinite;
         }
-        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes floatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         
         h1 { font-family: 'Dancing Script', cursive; color: #ff4081; font-size: 2.5rem; margin: 0; }
         .emoji { font-size: 4.5rem; margin: 15px 0; display: block; }
@@ -43,17 +37,17 @@
         .button {
             background: #ff4081; color: white; border: none;
             padding: 15px 30px; border-radius: 50px; font-weight: bold;
-            font-size: 1rem; cursor: pointer; margin-top: 20px;
-            box-shadow: 0 8px 15px rgba(255, 64, 129, 0.3);
-            animation: pulse 2s infinite;
+            font-size: 1.1rem; cursor: pointer; margin-top: 20px;
+            box-shadow: 0 8px 20px rgba(255, 64, 129, 0.4);
+            animation: pulse 1.5s infinite; transition: 0.2s;
         }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 64, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 64, 129, 0); } }
 
         #secret-message {
             display: none; margin-top: 25px; padding: 18px;
             background: white; border-radius: 15px;
             color: #c2185b; font-weight: 600; border: 2px dashed #ff4081;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         @keyframes popIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
@@ -61,25 +55,26 @@
 <body>
 
     <script>
-        // Bubbles
-        for (let i = 0; i < 10; i++) {
-            let b = document.createElement('div');
-            b.className = 'floating';
-            let size = Math.random() * 50 + 20 + 'px';
-            b.style.width = size; b.style.height = size;
-            b.style.left = Math.random() * 100 + 'vw';
-            b.style.animationDelay = Math.random() * 10 + 's';
-            document.body.appendChild(b);
+        // Generating stars
+        for (let i = 0; i < 30; i++) {
+            let s = document.createElement('div');
+            s.className = 'star';
+            let size = Math.random() * 4 + 'px';
+            s.style.width = size; s.style.height = size;
+            s.style.top = Math.random() * 100 + 'vh';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(s);
         }
-        // Floating Hearts & Flowers
-        const icons = ['❤️', '🌸', '✨', '🌷'];
-        for (let i = 0; i < 12; i++) {
+        // Keep your Bubbles, Hearts, and Flowers
+        const icons = ['❤️', '🌸', '✨', '🌷', '⚪'];
+        for (let i = 0; i < 20; i++) {
             let h = document.createElement('div');
-            h.className = 'heart-float';
-            h.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+            h.className = icons[i%icons.length] === '⚪' ? 'floating' : 'heart-float';
+            if (icons[i%icons.length] !== '⚪') h.innerHTML = icons[i%icons.length];
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.animationDelay = Math.random() * 8 + 's';
-            h.style.fontSize = Math.random() * 20 + 15 + 'px';
+            h.style.animationDelay = Math.random() * 10 + 's';
+            h.style.fontSize = Math.random() * 25 + 15 + 'px';
             document.body.appendChild(h);
         }
     </script>
@@ -99,15 +94,20 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         window.onload = () => {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 }, colors: ['#ff9a9e', '#ffffff'] });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.8 }, colors: ['#ff4081', '#ffffff', '#ffc1e3'] });
         };
 
         function megaCelebrate() {
             document.getElementById('secret-message').style.display = 'block';
-            var end = Date.now() + (5 * 1000); // Now lasts 5 seconds!
+
+            // New: Center Ring Burst
+            confetti({ particleCount: 100, spread: 360, startVelocity: 30, origin: { y: 0.5 } });
+
+            // Your favorite Side Cannons
+            var end = Date.now() + (5 * 1000);
             (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0, y: 0.8 } });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1, y: 0.8 } });
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0, y: 0.8 } });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1, y: 0.8 } });
                 if (Date.now() < end) { requestAnimationFrame(frame); }
             }());
         }
